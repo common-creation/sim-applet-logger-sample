@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="gpapi-globalplatform">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/gp/org.globalplatform-1.7/gpapi-globalplatform.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/gp/org.globalplatform-1.7/gpapi-globalplatform.jar!/" />
+    </SOURCES>
+  </library>
+</component>

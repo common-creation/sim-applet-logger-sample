@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="31130_Annex_A_USIM-API">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/31130-d30/31130_Annex_A_USIM-API.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/lib/31130-d30/31130_Annex_A_HTML.zip!/31130_Annex_A_HTML/javadoc" />
+    </JAVADOC>
+    <SOURCES />
+  </library>
+</component>

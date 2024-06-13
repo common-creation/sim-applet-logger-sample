@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="uicc-api-for-java-card-REL-13_0">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/ts_102241v130000p0/uicc-api-for-java-card-REL-13_0.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/lib/ts_102241v130000p0/102241_Annex_A_HTML.zip!/102241_Annex_A_HTML/javadoc" />
+    </JAVADOC>
+    <SOURCES />
+  </library>
+</component>

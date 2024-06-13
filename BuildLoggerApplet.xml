@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<project default="Verification" basedir=".">
+    <property file="LoggerAppletBuild.properties"/>
+    <property environment="env"/>
+
+    <!-- The Java Card Development Kit Tools (JCDK Tools) -->
+    <property name="jc_home_tools"
+              location="sdks/jc310r20210706_kit"/>
+
+    <!--  globalplatform api  -->
+    <property name="gpapi" location="gp/org.globalplatform-1.7"/>
+
+    <!-- Project paths -->
+    <property name="path.suncap" location="suncap"/>
+    <property name="path.class" location="class"/>
+    <property name="path.exports" location="exports"/>
+    <property name="path.src" location="src"/>
+
+    <!-- Tools paths -->
+    <property name="converter.sun" location="${jc_home_tools}/bin/converter.bat"/>
+    <property name="verify.sun" location="${jc_home_tools}/bin/verifycap.bat"/>
+
+    <target name="extractExp" description="Extract *.exp from library jar">
+        <unzip dest="${path.exports}">
+            <patternset>
+                <exclude name="**/META-INF/*"/>
+            </patternset>
+            <fileset dir=".">
+                <include name="lib/**/*.jar"/>
+                <exclude name="lib/com/**/*.jar" />
+            </fileset>
+        </unzip>
+    </target>
+
+    <target name="Compiling" depends="extractExp" description="Compiling java source to class file...">
+
+        <mkdir dir="${path.suncap}"/>
+        <mkdir dir="${path.class}"/>
+        <!-- Deletes all files and subdirectories of "class", without "class" itself -->
+        <delete includeemptydirs="true" verbose="false">
+            <fileset dir="${path.class}" includes="**/*"/>
+        </delete>
+
+        <!--Compile *.Java to *.Class-->
+        <javac executable="${java.home}" verbose="false" debug="false"
+               destdir="${path.class}"
+               source="7" target="7" compiler="javac1.8"
+               failonerror="true" includeantruntime="false">
+            <src path="${path.src}"/>
+            <classpath>
+                <pathelement location="${jc_home_tools}/lib/api_classic-3.0.5.jar"/>
+                <pathelement location="${gpapi}/gpapi-globalplatform.jar"/>
+                <pathelement path="${path.exports}"/>
+            </classpath>
+        </javac>
+    </target>
+
+    <target name="Conversion" depends="Compiling" description="Converting class file to cap file...">
+        <!-- Deletes all files and subdirectories of "suncap", without "suncap" itself -->
+        <delete includeemptydirs="true" verbose="false">
+            <fileset dir="${path.suncap}" includes="**/*"/>
+        </delete>
+
+        <!--  Copy globalplatform.exp to exports from agapi -->
+        <copy todir="${path.exports}">
+            <fileset dir="${gpapi}/exports" />
+        </copy>
+
+        <!--Convert *.Class to *.cap-->
+        <exec executable="${converter.sun}" failonerror="true">
+            <env key="JAVA_HOME" value="${java.home}"/> <!-- IntelliJ IDEAのProject SDKをJAVA_HOMEにする -->
+            <arg line="-v "/>
+            <arg line="-target 3.0.5"/>
+            <arg line="-out CAP EXP"/>
+            <arg line="-exportpath ${path.exports}"/>
+            <arg line="-classdir ${path.class}"/>
+            <arg line="-d ${path.suncap}"/>
+            <arg line="-applet ${app.aid.class} ${app.name.package}.${app.name.class}"/>
+            <arg line="${app.name.package}"/>
+            <arg line="${app.aid.package}"/>
+            <arg line="${app.ver.package}"/>
+        </exec>
+
+        <copy tofile="${path.suncap}/${app.name.cap}.cap"
+              file="${path.suncap}/${app.path.package}/javacard/${app.name.cap}.cap"/>
+        <copy tofile="${path.suncap}/${app.name.cap}.exp"
+              file="${path.suncap}/${app.path.package}/javacard/${app.name.cap}.exp"/>
+        <delete dir="${path.suncap}" verbose="false" includeemptydirs="true" excludes=" *.cap *.exp .gitkeep"/>
+
+    </target>
+
+    <target name="Verification" depends="Conversion" description="Verifying cap file...">
+        <path id="path.jcexportfiles">
+            <fileset dir="${path.exports}" includes="**/*.exp"/>
+        </path>
+        <pathconvert property="jcexportfiles" refid="path.jcexportfiles" pathsep=" "/>
+
+        <exec executable="${verify.sun}" failonerror="true">
+            <env key="JAVA_HOME" value="${java.home}"/>
+            <arg line="-target 3.0.5"/>
+            <arg line="${jcexportfiles}"/>
+            <arg line="${path.suncap}/${app.name.cap}.exp"/>
+            <arg line="${path.suncap}/${app.name.cap}.cap"/>
+        </exec>
+    </target>
+
+</project>
