@@ -27,7 +27,7 @@ Windows環境の[IntelliJ IDEA](https://www.jetbrains.com/ja-jp/idea/) Community
 1. このリポジトリをサブモジュールを含めてcloneする
 
 ```powershell
-git clone --recursive 'https://github.com/common-creation/sim-applet-logger.git'
+git clone --recursive 'https://github.com/common-creation/sim-applet-logger-sample.git'
 ```
 
 2. [lib/download_apifiles.bat](./lib/download_apifiles.bat)を実行して、UICC Toolkitをダウンロード・展開する
