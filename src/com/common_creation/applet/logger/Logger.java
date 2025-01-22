@@ -255,7 +255,7 @@ public class Logger extends Applet implements ToolkitInterface, ToolkitConstants
      */
     private void send(byte[] payload, short offset, short length) {
         try {
-            if (isInitializedLogger()) {
+            if (! isInitializedLogger()) {
                 showSendError(ErrorMessage.initializedError);
                 return;
             }
@@ -303,7 +303,7 @@ public class Logger extends Applet implements ToolkitInterface, ToolkitConstants
      */
     private void sendTestLog() {
         try {
-            if (isInitializedLogger()) {
+            if (! isInitializedLogger()) {
                 byte[] initText = {'R', 'u', 'n', ' ', 'I', 'n', 'i', 't'};
                 Screen.displayText(initText);
                 initLogger(testServerAddress, testPath, port);
