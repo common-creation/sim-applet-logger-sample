@@ -56,7 +56,7 @@ private static final byte[] testServerAddress = {(byte) 0xc0, (byte) 0xa8, (byte
 
 ```
 
-5. `Build Applet` を実行すると、 `.\suncap\logger.cap` が生成される
+5. IntelliJ IDEAの View → Tool Windows → Ant の順に開き`Run Build`をクリックすると、 `.\suncap\logger.cap` が生成される
 
 6. 生成されたcapファイルをSIMカードにインストールする
 - インストール方法の詳細については、弊社が公開している[こちらの記事](https://note.com/common_creation/n/nd4bfcd0c0b34)をご参照ください
